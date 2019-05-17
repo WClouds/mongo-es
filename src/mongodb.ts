@@ -32,11 +32,7 @@ export default class MongoDB {
 
   getCollection(): Readable {
     return this.collection
-      .find({
-        _id: {
-          $gte: this.task.from.id,
-        },
-      })
+      .find({})
       .project(this.task.extract.projection)
       .stream()
   }
@@ -48,6 +44,7 @@ export default class MongoDB {
         ts: {
           $gte: new Timestamp(0, this.task.from.time.getTime() / 1000),
         },
+        'o.name': 'tron.output',
         fromMigrate: {
           $ne: true,
         },

@@ -23,13 +23,13 @@ export class ElasticsearchConfig {
 
 export class CheckPoint {
   phase: 'scan' | 'tail'
-  id: ObjectID
+  id: ObjectID | string
   time: Date
 
-  constructor({ phase, id = '000000000000000000000000', time = Date.now() }) {
+  constructor({ phase, id = '', time = Date.now() }) {
     this.phase = phase
     if (phase === 'scan') {
-      this.id = new ObjectID(id)
+      this.id = id
     }
     this.time = new Date(time)
   }
