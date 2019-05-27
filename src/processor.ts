@@ -8,6 +8,7 @@ import { Task, Controls, CheckPoint } from './config'
 import { IR, MongoDoc, ESDoc, OpLog } from './types'
 import Elasticsearch from './elasticsearch'
 import MongoDB from './mongodb'
+import Formater from './formater'
 
 export default class Processor {
   static provisionedReadCapacity: number
@@ -369,7 +370,7 @@ export default class Processor {
 
   async _processOplogSafe(oplogs) {
     try {
-      const irs = _.compact(
+      let irs = _.compact(
         await Promise.all(
           this.mergeOplogs(oplogs).map(async oplog => {
             return await this.oplog(oplog)
@@ -377,6 +378,10 @@ export default class Processor {
         ),
       )
       if (irs.length > 0) {
+        /**
+         * Format tron events
+         */
+        irs = Formater(irs)
         await this.load(irs)
         await Task.saveCheckpoint(
           this.task.name(),

@@ -4,6 +4,8 @@ import {
   IndicesPutMappingParams,
   IndicesExistsParams,
 } from 'elasticsearch'
+import * as _ from 'lodash'
+import * as AWS from 'aws-sdk'
 
 import { Config, ElasticsearchConfig } from './config'
 
@@ -12,7 +14,25 @@ export default class Indices {
 
   private constructor(elasticsearch: ElasticsearchConfig) {
     if (!Indices.client) {
-      Indices.client = new Client({ ...elasticsearch.options })
+      const esOpts = _.omit(elasticsearch.options, ['awsConfig'])
+      let clientOpts = { ...esOpts }
+
+      /**
+       * Support awsConfig according to options
+       */
+      if (_.get(elasticsearch, 'options.awsConfig')) {
+        const myCredentials = new AWS.SharedIniFileCredentials({ profile: 'default' })
+        AWS.config.update({
+          credentials: myCredentials,
+          region: _.get(elasticsearch, 'options.awsConfig.region'),
+        })
+        clientOpts = {
+          ...esOpts,
+          connectionClass: require('http-aws-es'),
+        }
+      }
+
+      Indices.client = new Client(clientOpts)
     }
   }
 

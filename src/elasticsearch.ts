@@ -1,3 +1,4 @@
+import * as AWS from 'aws-sdk'
 import { Client, BulkIndexDocumentsParams } from 'elasticsearch'
 import * as _ from 'lodash'
 
@@ -14,7 +15,25 @@ export default class Elasticsearch {
 
   constructor(elasticsearch: ElasticsearchConfig, task: Task) {
     if (!Elasticsearch.client) {
-      Elasticsearch.client = new Client({ ...elasticsearch.options })
+      const esOpts = _.omit(elasticsearch.options, ['awsConfig'])
+      let clientOpts = { ...esOpts }
+
+      /**
+       * Support awsConfig according to options
+       */
+      if (_.get(elasticsearch, 'options.awsConfig')) {
+        const myCredentials = new AWS.SharedIniFileCredentials({ profile: 'default' })
+        AWS.config.update({
+          credentials: myCredentials,
+          region: _.get(elasticsearch, 'options.awsConfig.region'),
+        })
+        clientOpts = {
+          ...esOpts,
+          connectionClass: require('http-aws-es'),
+        }
+      }
+
+      Elasticsearch.client = new Client(clientOpts)
     }
     this.task = task
   }
