@@ -45,6 +45,7 @@ export default class MongoDB {
           $gte: new Timestamp(0, this.task.from.time.getTime() / 1000),
         },
         'o.name': 'tron.output',
+        'o.data.tron': { $ne: null },
         op: 'i',
         fromMigrate: {
           $ne: true,
