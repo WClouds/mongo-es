@@ -1,5 +1,5 @@
 import { ObjectID, MongoClientOptions } from 'mongodb'
-import { ConfigOptions, IndicesCreateParams, IndicesPutMappingParams } from 'elasticsearch'
+import { RequestParams, ClientOptions } from '@elastic/elasticsearch'
 
 export class MongoConfig {
   url: string
@@ -12,8 +12,8 @@ export class MongoConfig {
 }
 
 export class ElasticsearchConfig {
-  options: ConfigOptions
-  indices: IndicesCreateParams[]
+  options: ClientOptions
+  indices: RequestParams.IndicesCreate[]
 
   constructor({ options, indices = [] }) {
     this.options = options
@@ -53,21 +53,23 @@ export type TransformTask = {
   }
 }
 
-export type LoadTask = IndicesPutMappingParams
+export type LoadTask = RequestParams.IndicesPutMapping
 
 export class Task {
   from: CheckPoint
   extract: ExtractTask
   transform: TransformTask
   load: LoadTask
+  oplog_query?: any
   static onSaveCallback: (name: string, checkPoint: CheckPoint) => Promise<void>
   static onLoadCallback: (name: string) => Promise<any | null>
 
-  constructor({ from, extract, transform, load }) {
+  constructor({ from, extract, transform, load, oplog_query }) {
     this.from = new CheckPoint(from)
     this.extract = extract
     this.transform = transform
     this.load = load
+    this.oplog_query = oplog_query
   }
 
   name(): string {

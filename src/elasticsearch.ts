@@ -1,4 +1,4 @@
-import { Client, BulkIndexDocumentsParams } from 'elasticsearch'
+import { Client, RequestParams, ApiResponse } from '@elastic/elasticsearch'
 import * as _ from 'lodash'
 
 import { ESDoc } from './types'
@@ -19,12 +19,8 @@ export default class Elasticsearch {
     this.task = task
   }
 
-  async bulk(params: BulkIndexDocumentsParams): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      Elasticsearch.client.bulk(params, (err, response) => {
-        err ? reject(err) : resolve(response)
-      })
-    })
+  async bulk(params: RequestParams.Bulk): Promise<any> {
+    return Elasticsearch.client.bulk(params)
   }
 
   async search(id: string): Promise<ESDoc | null> {
@@ -56,36 +52,26 @@ export default class Elasticsearch {
   }
 
   async _searchBatchSafe(ids: string[]): Promise<{ [id: string]: ESDoc }> {
-    return new Promise<{ [id: string]: ESDoc }>(resolve => {
-      Elasticsearch.client.search<ESDoc>(
-        {
-          index: this.task.load.index,
-          type: this.task.load.type,
-          body: {
-            query: {
-              terms: {
-                _id: ids,
-              },
+    try {
+      const params: RequestParams.Search = {
+        index: this.task.load.index,
+        type: this.task.load.type,
+        body: {
+          query: {
+            terms: {
+              _id: ids,
             },
           },
         },
-        (err, response) => {
-          try {
-            if (err) {
-              console.warn('search from elasticsearch', this.task.name(), ids, err.message)
-              resolve({})
-              return
-            }
-            console.debug('search from elasticsearch', response)
-            const docs: ESDoc[] = response.hits.hits.map(this._mapResponse.bind(this))
-            resolve(_.keyBy(docs, doc => doc._id))
-          } catch (err2) {
-            console.error('search from elasticsearch', this.task.name(), ids, err2)
-            resolve({})
-          }
-        },
-      )
-    })
+      }
+
+      const response: ApiResponse = await Elasticsearch.client.search(params)
+      const docs: ESDoc[] = response.body.hits.hits.map(this._mapResponse.bind(this))
+      return _.keyBy(docs, doc => doc._id)
+    } catch (err) {
+      console.warn('search from elasticsearch', this.task.name(), ids, err.message)
+      return {}
+    }
   }
 
   async retrieve(id: string): Promise<ESDoc | null> {
@@ -117,34 +103,26 @@ export default class Elasticsearch {
   }
 
   async _retrieveBatchSafe(ids: string[]): Promise<{ [id: string]: ESDoc }> {
-    return new Promise<{ [id: string]: ESDoc }>(resolve => {
-      Elasticsearch.client.mget<ESDoc>(
-        {
-          index: this.task.load.index as string,
-          type: this.task.load.type,
-          body: {
-            ids,
-          },
+    try {
+      const params = {
+        index: this.task.load.index as string,
+        type: this.task.load.type,
+        body: {
+          ids,
         },
-        (err, response) => {
-          try {
-            if (err || !response.docs) {
-              console.warn('retrieve from elasticsearch', this.task.name(), ids, err.message)
-              resolve({})
-              return
-            }
-            console.debug('retrieve from elasticsearch', response)
-            const docs: ESDoc[] = response.docs
-              .filter(doc => doc.found)
-              .map(this._mapResponse.bind(this))
-            resolve(_.keyBy(docs, doc => doc._id))
-          } catch (err2) {
-            console.error('retrieve from elasticsearch', this.task.name(), ids, err2)
-            resolve({})
-          }
-        },
-      )
-    })
+      }
+
+      const response: ApiResponse = await Elasticsearch.client.mget(params)
+
+      console.debug('retrieve from elasticsearch', response)
+      const docs: ESDoc[] = response.body.docs
+        .filter(doc => doc.found)
+        .map(this._mapResponse.bind(this))
+      return _.keyBy(docs, doc => doc._id)
+    } catch (err) {
+      console.warn('retrieve from elasticsearch', this.task.name(), ids, err.message)
+      return {}
+    }
   }
 
   _mapResponse(hit: { _id: string; _parent?: string; _source: ESDoc }): ESDoc {

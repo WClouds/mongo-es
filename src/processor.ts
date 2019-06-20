@@ -8,6 +8,7 @@ import { Task, Controls, CheckPoint } from './config'
 import { IR, MongoDoc, ESDoc, OpLog } from './types'
 import Elasticsearch from './elasticsearch'
 import MongoDB from './mongodb'
+import formater from './formater'
 
 export default class Processor {
   static provisionedReadCapacity: number
@@ -194,8 +195,8 @@ export default class Processor {
             )
           }
           const old = this.task.transform.parent
-            ? await this.elasticsearch.search(oplog.o2._id.toHexString())
-            : await this.elasticsearch.retrieve(oplog.o2._id.toHexString())
+            ? await this.elasticsearch.search(oplog.o2._id.toString())
+            : await this.elasticsearch.retrieve(oplog.o2._id.toString())
           const doc = old
             ? this.applyUpdateESDoc(old, oplog.o.$set, oplog.o.$unset)
             : await this.mongodb.retrieve(oplog.o2._id)
@@ -207,7 +208,7 @@ export default class Processor {
             return null
           }
           const doc = this.task.transform.parent
-            ? await this.elasticsearch.search(oplog.o._id.toHexString())
+            ? await this.elasticsearch.search(oplog.o._id.toString())
             : oplog.o
           console.debug(doc)
           return doc ? this.transformer('delete', doc, oplog.ts) : null
@@ -369,7 +370,7 @@ export default class Processor {
 
   async _processOplogSafe(oplogs) {
     try {
-      const irs = _.compact(
+      let irs = _.compact(
         await Promise.all(
           this.mergeOplogs(oplogs).map(async oplog => {
             return await this.oplog(oplog)
@@ -377,6 +378,9 @@ export default class Processor {
         ),
       )
       if (irs.length > 0) {
+        // Formater
+        irs = formater(irs)
+
         await this.load(irs)
         await Task.saveCheckpoint(
           this.task.name(),

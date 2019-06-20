@@ -17,4 +17,20 @@ Task.onLoadCheckpoint(name => {
   })
 })
 
-run(new Config(fs.readFileSync('examples/config.json', 'utf8')))
+let config = fs.readFileSync('examples/local_config.json', 'utf8')
+config.mongodb = {
+  url: process.env.MONGO_URL,
+  options: {
+    authSource: 'admin',
+    readPreference: 'primaryPreferred',
+  },
+}
+config.elasticsearch.options = {
+  cloud: {
+    id: process.env.ELASTIC_CLOUD_ID,
+    username: process.env.ELASTIC_USERNAME,
+    password: process.env.ELASTIC_PASSWORD,
+  },
+}
+
+run(new Config(config))

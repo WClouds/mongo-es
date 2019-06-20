@@ -1,15 +1,16 @@
 import test from 'ava'
-import { Client } from 'elasticsearch'
+import { Client, ApiResponse } from '@elastic/elasticsearch'
 
 import Processor from '../src/processor'
 import Elasticsearch from '../src/elasticsearch'
 import { Controls, Task } from '../src/config'
 
 const client = new Client({
-  host: 'localhost:9200',
+  node: 'http://localhost:9200',
 })
 
 const task: Task = new Task({
+  oplog_query: {},
   from: {
     phase: 'scan',
   },
@@ -30,7 +31,7 @@ test('load', async t => {
   const elasticsearch = new Elasticsearch(
     {
       options: {
-        host: 'localhost:9200',
+        node: 'http://localhost:9200',
       },
       indices: [],
     },
@@ -49,12 +50,12 @@ test('load', async t => {
       timestamp: 0,
     },
   ])
-  const data = await client.get<any>({
+  const data: ApiResponse = await client.get({
     index: 'test',
     type: 'test',
     id: 'aaaaaaaaaaaaaaaaaaaaaaaa',
   })
-  t.deepEqual(data, {
+  t.deepEqual(data.body, {
     _index: 'test',
     _type: 'test',
     _id: 'aaaaaaaaaaaaaaaaaaaaaaaa',
@@ -67,14 +68,14 @@ test('load', async t => {
   })
 })
 
-test.before('create index', t => {
-  return client.indices.create({
+test.before('create index', async t => {
+  await client.indices.create({
     index: 'test',
   })
 })
 
-test.after.always('delete index', t => {
-  return client.indices.delete({
+test.after.always('delete index', async t => {
+  await client.indices.delete({
     index: 'test',
   })
 })

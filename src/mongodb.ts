@@ -51,6 +51,7 @@ export default class MongoDB {
         fromMigrate: {
           $ne: true,
         },
+        ...this.task.oplog_query,
       })
       .addCursorFlag('tailable', true)
       .addCursorFlag('oplogReplay', true)
@@ -60,8 +61,8 @@ export default class MongoDB {
 
   async retrieve(id: ObjectID): Promise<MongoDoc | null> {
     return new Promise<MongoDoc | null>(resolve => {
-      this.retrieveBuffer[id.toHexString()] = this.retrieveBuffer[id.toHexString()] || []
-      this.retrieveBuffer[id.toHexString()].push(resolve)
+      this.retrieveBuffer[id.toString()] = this.retrieveBuffer[id.toString()] || []
+      this.retrieveBuffer[id.toString()].push(resolve)
       if (!this.retrieveRunning) {
         this.retrieveRunning = true
         setTimeout(this._retrieve.bind(this), 1000)
@@ -96,7 +97,7 @@ export default class MongoDB {
         })
         .toArray()
       console.debug('retrieve from mongodb', docs)
-      return _.keyBy(docs, doc => doc._id.toHexString())
+      return _.keyBy(docs, doc => doc._id.toString())
     } catch (err) {
       console.warn('retrieve from mongodb', this.task.name(), ids, err)
       return {}

@@ -23,6 +23,7 @@ const oplog: OpLog = {
 }
 
 const task: Task = new Task({
+  oplog_query: {},
   from: {
     phase: 'scan',
   },
@@ -37,6 +38,7 @@ const task: Task = new Task({
 })
 
 const task2: Task = new Task({
+  oplog_query: {},
   from: {
     phase: 'scan',
   },

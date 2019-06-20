@@ -1,9 +1,4 @@
-import {
-  Client,
-  IndicesCreateParams,
-  IndicesPutMappingParams,
-  IndicesExistsParams,
-} from 'elasticsearch'
+import { Client, RequestParams, ApiResponse } from '@elastic/elasticsearch'
 
 import { Config, ElasticsearchConfig } from './config'
 
@@ -32,27 +27,16 @@ export default class Indices {
     }
   }
 
-  async create(params: IndicesCreateParams): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      Indices.client.indices.create(params, (err, response) => {
-        err ? reject(err) : resolve(response)
-      })
-    })
+  async create(params: RequestParams.IndicesCreate): Promise<any> {
+    return await Indices.client.indices.create(params)
   }
 
-  async putMapping(params: IndicesPutMappingParams): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      Indices.client.indices.putMapping(params, (err, response) => {
-        err ? reject(err) : resolve(response)
-      })
-    })
+  async putMapping(params: RequestParams.IndicesPutMapping): Promise<any> {
+    return await Indices.client.indices.putMapping(params)
   }
 
-  async exists(params: IndicesExistsParams): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      Indices.client.indices.exists(params, (err, response) => {
-        err ? reject(err) : resolve(response)
-      })
-    })
+  async exists(params: RequestParams.IndicesExists): Promise<boolean> {
+    const response: ApiResponse = await Indices.client.indices.exists(params)
+    return response.body
   }
 }

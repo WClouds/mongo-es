@@ -36,13 +36,15 @@
   },
   "homepage": "https://github.com/jike-engineering/mongo-es#readme",
   "dependencies": {
+    "@elastic/elasticsearch": "^7.1.0",
     "elasticsearch": "15.4.1",
+    "ioredis": "^4.10.0",
     "lodash": "4.17.11",
     "mongodb": "3.1.13",
     "rx": "4.1.0"
   },
   "devDependencies": {
-    "@types/elasticsearch": "5.0.31",
+    "@types/elasticsearch": "^5.0.34",
     "@types/lodash": "4.14.121",
     "@types/mongodb": "3.1.19",
     "@types/rx": "4.1.1",
