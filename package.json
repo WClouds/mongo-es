@@ -41,6 +41,7 @@
     "ioredis": "^4.10.0",
     "lodash": "4.17.11",
     "mongodb": "3.1.13",
+    "mongoose": "^5.6.0",
     "rx": "4.1.0"
   },
   "devDependencies": {

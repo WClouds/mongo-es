@@ -1,0 +1,692 @@
+{
+  "dynamic": true,
+  "properties": {
+    "ua": {
+      "properties": {
+        "app": {
+          "type": "keyword"
+        },
+        "version": {
+          "type": "keyword"
+        },
+        "known": {
+          "type": "boolean"
+        },
+        "ip": {
+          "type": "text"
+        }
+      }
+    },
+    "comments": {
+      "type": "text"
+    },
+    "passcode": {
+      "type": "keyword"
+    },
+    "fees": {
+      "properties": {
+        "tip": {
+          "properties": {
+            "cash": {
+              "type": "boolean"
+            },
+            "amount": {
+              "type": "float"
+            }
+          }
+        },
+        "delta": {
+          "type": "float"
+        },
+        "tax": {
+          "type": "float"
+        },
+        "service": {
+          "type": "float"
+        },
+        "delivery": {
+          "type": "float"
+        },
+        "credit": {
+          "type": "float"
+        }
+      }
+    },
+    "stripe": {
+      "properties": {
+        "source_str": {
+          "type": "keyword"
+        },
+        "alipay": {
+          "properties": {
+            "signed": {
+              "type": "text"
+            },
+            "webSigned": {
+              "type": "text"
+            }
+          }
+        },
+        "chargedAmount": {
+          "type": "float"
+        },
+        "wechat": {
+          "properties": {
+            "signed": {
+              "type": "text"
+            }
+          }
+        },
+        "id": {
+          "type": "keyword"
+        },
+        "source_obj": {
+          "properties": {
+            "id": {
+              "type": "keyword"
+            },
+            "object": {
+              "type": "text"
+            },
+            "address_city": {
+              "type": "text"
+            },
+            "address_country": {
+              "type": "text"
+            },
+            "address_line1": {
+              "type": "text"
+            },
+            "address_line1_check": {
+              "type": "text"
+            },
+            "address_line2": {
+              "type": "text"
+            },
+            "address_state": {
+              "type": "text"
+            },
+            "address_zip": {
+              "type": "text"
+            },
+            "address_zip_check": {
+              "type": "text"
+            },
+            "brand": {
+              "type": "text"
+            },
+            "country": {
+              "type": "text"
+            },
+            "customer": {
+              "type": "keyword"
+            },
+            "cvc_check": {
+              "type": "text"
+            },
+            "dynamic_last4": {
+              "type": "text"
+            },
+            "exp_month": {
+              "type": "float"
+            },
+            "exp_year": {
+              "type": "long"
+            },
+            "fingerprint": {
+              "type": "text"
+            },
+            "funding": {
+              "type": "text"
+            },
+            "last4": {
+              "type": "text"
+            },
+            "name": {
+              "type": "text"
+            },
+            "tokenization_method": {
+              "type": "text"
+            }
+          }
+        }
+      },
+      "dynamic": true
+    },
+    "region": {
+      "properties": {
+        "_id": {
+          "type": "keyword"
+        },
+        "name": {
+          "type": "keyword"
+        }
+      }
+    },
+    "customer": {
+      "properties": {
+        "_id": {
+          "type": "keyword"
+        },
+        "phone": {
+          "type": "keyword"
+        },
+        "orderCount": {
+          "type": "long"
+        },
+        "refer": {
+          "properties": {
+            "code": {
+              "type": "text"
+            }
+          }
+        },
+        "language": {
+          "type": "keyword"
+        }
+      }
+    },
+    "restaurant": {
+      "properties": {
+        "_id": {
+          "type": "keyword"
+        },
+        "name": {
+          "properties": {
+            "zh-CN": {
+              "type": "keyword"
+            },
+            "en-US": {
+              "type": "keyword"
+            },
+            "zh-HK": {
+              "type": "keyword"
+            }
+          }
+        },
+        "manual": {
+          "type": "boolean"
+        },
+        "fake": {
+          "type": "boolean"
+        },
+        "color": {
+          "type": "text"
+        },
+        "timezone": {
+          "type": "keyword"
+        },
+        "address": {
+          "properties": {
+            "number": {
+              "type": "text"
+            },
+            "street": {
+              "type": "text"
+            },
+            "city": {
+              "type": "keyword"
+            },
+            "state": {
+              "type": "keyword"
+            },
+            "country": {
+              "type": "keyword"
+            },
+            "zipcode": {
+              "type": "text"
+            },
+            "formatted": {
+              "type": "text"
+            },
+            "location": {
+              "properties": {
+                "type": {
+                  "type": "keyword"
+                },
+                "coordinates": {
+                  "type": "geo_point"
+                }
+              }
+            },
+            "unit": {
+              "type": "text"
+            }
+          }
+        },
+        "address_text": {
+          "type": "text"
+        },
+        "language": {
+          "type": "keyword"
+        },
+        "tax": {
+          "type": "float"
+        },
+        "preferences": {
+          "properties": {
+            "driverCopy": {
+              "type": "boolean"
+            },
+            "dailyReport": {
+              "type": "boolean"
+            }
+          }
+        },
+        "delivery": {
+          "properties": {
+            "provider": {
+              "type": "keyword"
+            },
+            "locationId": {
+              "type": "text"
+            },
+            "prepare": {
+              "type": "float"
+            },
+            "fee": {
+              "properties": {
+                "flat": {
+                  "type": "float"
+                },
+                "factor": {
+                  "type": "float"
+                }
+              }
+            },
+            "minimum": {
+              "type": "float"
+            },
+            "estimate": {
+              "properties": {
+                "min": {
+                  "type": "float"
+                },
+                "max": {
+                  "type": "float"
+                }
+              }
+            },
+            "stats": {
+              "properties": {
+                "avg": {
+                  "type": "float"
+                },
+                "std": {
+                  "type": "float"
+                },
+                "prepare": {
+                  "type": "float"
+                },
+                "estimate": {
+                  "properties": {
+                    "min": {
+                      "type": "float"
+                    },
+                    "max": {
+                      "type": "float"
+                    },
+                    "deadline": {
+                      "type": "date"
+                    }
+                  }
+                }
+              }
+            },
+            "cutoff_obj": {
+              "properties": {
+                "cutoff": {
+                  "type": "float"
+                },
+                "provider": {
+                  "type": "text"
+                }
+              }
+            },
+            "cutoff_value": {
+              "type": "float"
+            }
+          }
+        },
+        "phone": {
+          "type": "keyword"
+        },
+        "fax": {
+          "type": "keyword"
+        }
+      }
+    },
+    "ticket": {
+      "properties": {
+        "_id": {
+          "type": "keyword"
+        },
+        "timestamp": {
+          "type": "date"
+        }
+      }
+    },
+    "delivery": {
+      "properties": {
+        "_id": {
+          "type": "keyword"
+        },
+        "provider": {
+          "type": "keyword"
+        },
+        "delay": {
+          "type": "float"
+        },
+        "courier": {
+          "properties": {
+            "_id": {
+              "type": "keyword"
+            },
+            "email": {
+              "type": "keyword"
+            },
+            "phone": {
+              "type": "keyword"
+            }
+          }
+        },
+        "status": {
+          "type": "keyword"
+        },
+        "createdAt": {
+          "type": "date"
+        },
+        "completedAt": {
+          "type": "date"
+        },
+        "deadlineAt": {
+          "type": "date"
+        },
+        "address": {
+          "properties": {
+            "number": {
+              "type": "text"
+            },
+            "street": {
+              "type": "text"
+            },
+            "city": {
+              "type": "keyword"
+            },
+            "state": {
+              "type": "keyword"
+            },
+            "country": {
+              "type": "keyword"
+            },
+            "zipcode": {
+              "type": "text"
+            },
+            "formatted": {
+              "type": "text"
+            },
+            "location": {
+              "properties": {
+                "type": {
+                  "type": "keyword"
+                },
+                "coordinates": {
+                  "type": "geo_point"
+                }
+              }
+            },
+            "unit": {
+              "type": "text"
+            }
+          }
+        },
+        "estimate": {
+          "properties": {
+            "min": {
+              "type": "float"
+            },
+            "max": {
+              "type": "float"
+            },
+            "avgEstimate": {
+              "type": "float"
+            },
+            "deadline": {
+              "type": "date"
+            }
+          }
+        },
+        "tron_estimate": {
+          "properties": {
+            "min": {
+              "type": "float"
+            },
+            "max": {
+              "type": "float"
+            },
+            "avg_predict_time": {
+              "type": "float"
+            },
+            "tron_estimate_time": {
+              "type": "float"
+            }
+          }
+        },
+        "fee": {
+          "type": "float"
+        },
+        "updatedAt": {
+          "type": "date"
+        },
+        "url": {
+          "type": "text"
+        },
+        "time": {
+          "type": "float"
+        }
+      }
+    },
+    "items": {
+      "properties": {
+        "_id": {
+          "type": "keyword"
+        },
+        "name": {
+          "properties": {
+            "zh-CN": {
+              "type": "text"
+            },
+            "en-US": {
+              "type": "text"
+            },
+            "zh-HK": {
+              "type": "text"
+            }
+          }
+        },
+        "cost": {
+          "type": "float"
+        },
+        "code": {
+          "type": "text"
+        },
+        "color": {
+          "type": "text"
+        },
+        "price": {
+          "type": "float"
+        },
+        "options": {
+          "properties": {
+            "_id": {
+              "type": "keyword"
+            },
+            "name": {
+              "properties": {
+                "zh-CN": {
+                  "type": "text"
+                },
+                "en-US": {
+                  "type": "text"
+                },
+                "zh-HK": {
+                  "type": "text"
+                }
+              }
+            },
+            "price": {
+              "type": "float"
+            }
+          }
+        }
+      }
+    },
+    "destination": {
+      "properties": {
+        "address": {
+          "type": "text"
+        },
+        "formattedAddress": {
+          "type": "text"
+        }
+      }
+    },
+    "unionPay": {
+      "type": "float"
+    },
+    "subtotal": {
+      "type": "float"
+    },
+    "cost": {
+      "properties": {
+        "subtotal": {
+          "type": "float"
+        },
+        "tax": {
+          "type": "float"
+        }
+      }
+    },
+    "cost_value": {
+      "type": "float"
+    },
+    "commission": {
+      "properties": {
+        "subtotal": {
+          "type": "float"
+        },
+        "total": {
+          "type": "float"
+        },
+        "service": {
+          "type": "float"
+        }
+      }
+    },
+    "total": {
+      "type": "float"
+    },
+    "adjustments": {
+      "properties": {
+        "ricepo": {
+          "type": "float"
+        },
+        "driver": {
+          "type": "float"
+        },
+        "customer": {
+          "type": "float"
+        },
+        "restaurant": {
+          "type": "float"
+        }
+      }
+    },
+    "distribution": {
+      "properties": {
+        "ricepo": {
+          "properties": {
+            "tip": {
+              "type": "float"
+            },
+            "total": {
+              "type": "float"
+            },
+            "delivery": {
+              "type": "float"
+            },
+            "delta": {
+              "type": "float"
+            }
+          }
+        },
+        "driver": {
+          "type": "float"
+        },
+        "stripe": {
+          "type": "float"
+        },
+        "payment": {
+          "properties": {
+            "wechat": {
+              "type": "float"
+            },
+            "alipay": {
+              "type": "float"
+            },
+            "stripe": {
+              "type": "float"
+            }
+          }
+        },
+        "thirdparty": {
+          "type": "float"
+        },
+        "restaurant": {
+          "type": "float"
+        }
+      }
+    },
+    "status": {
+      "type": "keyword"
+    },
+    "receiptSent": {
+      "type": "boolean"
+    },
+    "createdAt": {
+      "type": "date"
+    },
+    "updatedAt": {
+      "type": "date"
+    },
+    "message": {
+      "type": "text"
+    },
+    "tip_obj": {
+      "properties": {
+        "amount": {
+          "type": "float"
+        }
+      }
+    },
+    "tip_value": {
+      "type": "float"
+    },
+    "driver": {
+      "properties": {
+        "_id": {
+          "type": "keyword"
+        },
+        "email": {
+          "type": "keyword"
+        },
+        "phone": {
+          "type": "keyword"
+        }
+      }
+    },
+    "driver_value": {
+      "type": "text"
+    }
+  }
+}

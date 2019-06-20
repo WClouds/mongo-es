@@ -1,0 +1,551 @@
+{
+  "dynamic": true,
+  "properties": {
+    "createdAt": {
+      "type": "date"
+    },
+    "ip": {
+      "type": "ip"
+    },
+    "name": {
+      "type": "keyword"
+    },
+    "scope": {
+      "properties": {
+        "region": {
+          "type": "keyword"
+        }
+      }
+    },
+    "user": {
+      "properties": {
+        "_id": {
+          "type": "keyword"
+        },
+        "email": {
+          "type": "keyword"
+        }
+      }
+    },
+    "origin": {
+      "type": "keyword"
+    },
+    "data": {
+      "properties": {
+        "estimate": {
+          "type": "boolean"
+        },
+        "input": {
+          "properties": {
+            "options": {
+              "properties": {
+                "driver_priority": {
+                  "properties": {
+                    "open": {
+                      "type": "boolean"
+                    },
+                    "penalty_coefficient": {
+                      "type": "float"
+                    }
+                  }
+                },
+                "dropoff_linear_penalty": {
+                  "properties": {
+                    "base": {
+                      "type": "long"
+                    },
+                    "split_minute": {
+                      "type": "long"
+                    }
+                  }
+                },
+                "dropoff_multi_level_penalty": {
+                  "properties": {
+                    "penalty_coefficient": {
+                      "type": "float"
+                    },
+                    "split_minute": {
+                      "type": "long"
+                    }
+                  }
+                },
+                "duration_coefficient": {
+                  "type": "float"
+                },
+                "lateness_penalty": {
+                  "type": "long"
+                },
+                "map": {
+                  "type": "keyword"
+                },
+                "max_callback_cache_size": {
+                  "type": "long"
+                },
+                "max_visit_lateness": {
+                  "type": "long"
+                },
+                "open_dropoff_linear_penalty": {
+                  "type": "boolean"
+                },
+                "open_dropoff_multi_level_penalty": {
+                  "type": "boolean"
+                },
+                "open_pickup_late_penalty": {
+                  "type": "boolean"
+                },
+                "pickup_multi_level_penalty": {
+                  "properties": {
+                    "base": {
+                      "type": "long"
+                    },
+                    "split_minute": {
+                      "type": "long"
+                    }
+                  }
+                },
+                "profile": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "tronEstObj": {
+              "properties": {
+                "est": {
+                  "type": "float"
+                },
+                "expiredAt": {
+                  "type": "date"
+                },
+                "recaculateAt": {
+                  "type": "date"
+                }
+              }
+            },
+            "fleet": {
+              "properties": {
+                "fleet_id": {
+                  "type": "keyword"
+                },
+                "value": {
+                  "properties": {
+                    "commingDriver": {
+                      "type": "boolean"
+                    },
+                    "low_priority": {
+                      "type": "boolean"
+                    },
+                    "shift_start": {
+                      "type": "long"
+                    },
+                    "speed": {
+                      "type": "float"
+                    },
+                    "start_location": {
+                      "properties": {
+                        "lat": {
+                          "type": "float"
+                        },
+                        "lng": {
+                          "type": "float"
+                        },
+                        "name": {
+                          "type": "text",
+                          "fields": {
+                            "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "type": {
+                      "type": "text"
+                    }
+                  }
+                }
+              }
+            },
+            "visits": {
+              "properties": {
+                "order_id": {
+                  "type": "keyword"
+                },
+                "value": {
+                  "properties": {
+                    "commingOrder": {
+                      "type": "boolean"
+                    },
+                    "dropoff": {
+                      "properties": {
+                        "duration": {
+                          "type": "long"
+                        },
+                        "end": {
+                          "type": "long"
+                        },
+                        "location": {
+                          "properties": {
+                            "lat": {
+                              "type": "float"
+                            },
+                            "lng": {
+                              "type": "float"
+                            },
+                            "name": {
+                              "type": "keyword"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "estimatedOrder": {
+                      "type": "boolean"
+                    },
+                    "load": {
+                      "type": "long"
+                    },
+                    "pickup": {
+                      "properties": {
+                        "duration": {
+                          "type": "long"
+                        },
+                        "location": {
+                          "properties": {
+                            "lat": {
+                              "type": "float"
+                            },
+                            "lng": {
+                              "type": "float"
+                            },
+                            "name": {
+                              "type": "keyword"
+                            }
+                          }
+                        },
+                        "start": {
+                          "type": "long"
+                        }
+                      }
+                    },
+                    "type": {
+                      "type": "text"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "dynamic": true
+        },
+        "tron": {
+          "properties": {
+            "best_strategy": {
+              "type": "keyword"
+            },
+            "createdAt": {
+              "type": "keyword"
+            },
+            "finished_at": {
+              "type": "keyword"
+            },
+            "input": {
+              "properties": {
+                "fleet": {
+                  "properties": {
+                    "fleet_id": {
+                      "type": "keyword"
+                    },
+                    "value": {
+                      "properties": {
+                        "low_priority": {
+                          "type": "boolean"
+                        },
+                        "shift_start": {
+                          "type": "long"
+                        },
+                        "speed": {
+                          "type": "float"
+                        },
+                        "start_location": {
+                          "properties": {
+                            "lat": {
+                              "type": "float"
+                            },
+                            "lng": {
+                              "type": "float"
+                            },
+                            "name": {
+                              "type": "text"
+                            }
+                          }
+                        },
+                        "type": {
+                          "type": "text"
+                        }
+                      }
+                    }
+                  }
+                },
+                "visits": {
+                  "properties": {
+                    "order_id": {
+                      "type": "keyword"
+                    },
+                    "value": {
+                      "properties": {
+                        "commingDriver": {
+                          "type": "boolean"
+                        },
+                        "dropoff": {
+                          "properties": {
+                            "duration": {
+                              "type": "float"
+                            },
+                            "end": {
+                              "type": "long"
+                            },
+                            "location": {
+                              "properties": {
+                                "lat": {
+                                  "type": "float"
+                                },
+                                "lng": {
+                                  "type": "float"
+                                },
+                                "name": {
+                                  "type": "text"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "estimatedOrder": {
+                          "type": "boolean"
+                        },
+                        "load": {
+                          "type": "long"
+                        },
+                        "pickup": {
+                          "properties": {
+                            "duration": {
+                              "type": "long"
+                            },
+                            "location": {
+                              "properties": {
+                                "lat": {
+                                  "type": "float"
+                                },
+                                "lng": {
+                                  "type": "float"
+                                },
+                                "name": {
+                                  "type": "text"
+                                }
+                              }
+                            },
+                            "start": {
+                              "type": "long"
+                            }
+                          }
+                        },
+                        "type": {
+                          "type": "keyword"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "input_count": {
+              "properties": {
+                "fleet": {
+                  "type": "long"
+                },
+                "visits": {
+                  "type": "long"
+                }
+              }
+            },
+            "matrix_time": {
+              "type": "float"
+            },
+            "opts": {
+              "properties": {
+                "driver_priority": {
+                  "properties": {
+                    "open": {
+                      "type": "boolean"
+                    },
+                    "penalty_coefficient": {
+                      "type": "float"
+                    }
+                  }
+                },
+                "dropoff_linear_penalty": {
+                  "properties": {
+                    "base": {
+                      "type": "long"
+                    },
+                    "split_minute": {
+                      "type": "float"
+                    }
+                  }
+                },
+                "dropoff_multi_level_penalty": {
+                  "properties": {
+                    "penalty_coefficient": {
+                      "type": "float"
+                    },
+                    "split_minute": {
+                      "type": "long"
+                    }
+                  }
+                },
+                "duration_coefficient": {
+                  "type": "float"
+                },
+                "first_solution_strategy": {
+                  "type": "keyword"
+                },
+                "lateness_penalty": {
+                  "type": "float"
+                },
+                "map": {
+                  "type": "keyword"
+                },
+                "max_callback_cache_size": {
+                  "type": "long"
+                },
+                "open_dropoff_linear_penalty": {
+                  "type": "boolean"
+                },
+                "open_dropoff_multi_level_penalty": {
+                  "type": "boolean"
+                },
+                "open_pickup_late_penalty": {
+                  "type": "boolean"
+                },
+                "pickup_multi_level_penalty": {
+                  "properties": {
+                    "base": {
+                      "type": "long"
+                    },
+                    "split_minute": {
+                      "type": "long"
+                    }
+                  }
+                },
+                "profile": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "output": {
+              "properties": {
+                "distances": {
+                  "properties": {
+                    "driver_id": {
+                      "type": "keyword"
+                    },
+                    "value": {
+                      "type": "float"
+                    }
+                  }
+                },
+                "num_late_visits": {
+                  "type": "long"
+                },
+                "objective_value": {
+                  "type": "long"
+                },
+                "polyline_time": {
+                  "type": "float"
+                },
+                "polylines": {
+                  "properties": {
+                    "driver_id": {
+                      "type": "keyword"
+                    },
+                    "polyline": {
+                      "type": "text"
+                    }
+                  }
+                },
+                "solution": {
+                  "properties": {
+                    "driver": {
+                      "type": "keyword"
+                    },
+                    "route": {
+                      "properties": {
+                        "arrival_time": {
+                          "type": "long"
+                        },
+                        "distance": {
+                          "type": "float"
+                        },
+                        "finish_time": {
+                          "type": "long"
+                        },
+                        "late_by": {
+                          "properties": {
+                            "minutes": {
+                              "type": "long"
+                            },
+                            "seconds": {
+                              "type": "long"
+                            }
+                          }
+                        },
+                        "location_id": {
+                          "type": "keyword"
+                        },
+                        "location_name": {
+                          "type": "keyword"
+                        },
+                        "too_late": {
+                          "type": "boolean"
+                        },
+                        "type": {
+                          "type": "keyword"
+                        }
+                      }
+                    },
+                    "total_distance": {
+                      "type": "float"
+                    },
+                    "total_travel_time": {
+                      "type": "float"
+                    },
+                    "total_visit_lateness": {
+                      "properties": {
+                        "minutes": {
+                          "type": "long"
+                        },
+                        "seconds": {
+                          "type": "long"
+                        }
+                      }
+                    },
+                    "total_working_time": {
+                      "type": "float"
+                    }
+                  }
+                }
+              }
+            },
+            "status": {
+              "type": "keyword"
+            },
+            "work_time": {
+              "type": "float"
+            }
+          },
+          "dynamic": true
+        }
+      }
+    }
+  }
+}
