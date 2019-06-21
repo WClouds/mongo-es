@@ -2,7 +2,7 @@
   "controls": {
     "mongodbReadCapacity": 500,
     "elasticsearchBulkSize": 500,
-    "elasticsearchBulkInterval": 20000
+    "elasticsearchBulkInterval": 10000
   },
   "mongodb": {},
   "elasticsearch": {

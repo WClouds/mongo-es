@@ -17,7 +17,7 @@ Task.onLoadCheckpoint(name => {
   })
 })
 
-let config = fs.readFileSync('examples/local_config.json', 'utf8')
+let config = fs.readFileSync('examples/config.json', 'utf8')
 config.mongodb = {
   url: process.env.MONGO_URL,
   options: {
