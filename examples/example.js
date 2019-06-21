@@ -17,7 +17,7 @@ Task.onLoadCheckpoint(name => {
   })
 })
 
-let config = fs.readFileSync('examples/config.json', 'utf8')
+let config = JSON.parse(fs.readFileSync('examples/config.json', 'utf8'))
 config.mongodb = {
   url: process.env.MONGO_URL,
   options: {
@@ -32,5 +32,6 @@ config.elasticsearch.options = {
     password: process.env.ELASTIC_PASSWORD,
   },
 }
+config = JSON.stringify(config)
 
 run(new Config(config))
