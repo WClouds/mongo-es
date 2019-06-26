@@ -37,12 +37,14 @@
   "homepage": "https://github.com/jike-engineering/mongo-es#readme",
   "dependencies": {
     "@elastic/elasticsearch": "^7.1.0",
+    "bson-objectid": "^1.3.0",
     "elasticsearch": "15.4.1",
     "ioredis": "^4.10.0",
     "lodash": "4.17.11",
     "mongodb": "3.1.13",
     "mongoose": "^5.6.0",
-    "rx": "4.1.0"
+    "rx": "4.1.0",
+    "shortid": "^2.2.14"
   },
   "devDependencies": {
     "@types/elasticsearch": "^5.0.34",

@@ -5,6 +5,7 @@ import { Timestamp, Cursor, MongoClient, ObjectID, Collection } from 'mongodb'
 
 import { MongoDoc } from './types'
 import { Task, MongoConfig } from './config'
+import { canon } from './util'
 
 export default class MongoDB {
   static oplog: Collection
@@ -59,7 +60,7 @@ export default class MongoDB {
       .addCursorFlag('awaitData', true)
   }
 
-  async retrieve(id: ObjectID): Promise<MongoDoc | null> {
+  async retrieve(id: ObjectID | String): Promise<MongoDoc | null> {
     return new Promise<MongoDoc | null>(resolve => {
       this.retrieveBuffer[id.toString()] = this.retrieveBuffer[id.toString()] || []
       this.retrieveBuffer[id.toString()].push(resolve)
@@ -92,7 +93,7 @@ export default class MongoDB {
       const docs = await this.collection
         .find<MongoDoc>({
           _id: {
-            $in: ids.map(ObjectID.createFromHexString),
+            $in: ids.map(canon),
           },
         })
         .toArray()

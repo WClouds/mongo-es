@@ -121,9 +121,30 @@ export default class Processor {
     return doc
   }
 
+  notDeepUpdate(set: { [key: string]: any } = {}, unset: { [key: string]: any } = {}): Boolean {
+    const unsetKeys = _.keys(unset)
+    const setKeys = _.keys(set)
+    const keys = _.concat(unsetKeys, setKeys)
+
+    const mappingKeys = _.keys(this.task.transform.mapping)
+    const diff = _.difference(keys, mappingKeys)
+    return _.isEmpty(diff)
+  }
+
   ignoreUpdate(oplog: OpLog): boolean {
     let ignore = true
     if (oplog.op === 'u') {
+      const unsetKeys = _.keys(oplog.o.$unset)
+      const setKeys = _.keys(oplog.o.$set)
+      const keys = _.concat(unsetKeys, setKeys)
+      const keyPrefix = _.map(keys, k => {
+        return k.split('.')[0]
+      })
+      const mappingKeys = _.keys(this.task.transform.mapping)
+      const intersection = _.intersection(keyPrefix, mappingKeys)
+      if (!_.isEmpty(intersection)) {
+        ignore = false
+      }
       _.forEach(this.task.transform.mapping, (value, key) => {
         ignore =
           ignore && !(_.has(oplog.o, key) || _.has(oplog.o.$set, key) || _.get(oplog.o.$unset, key))
@@ -197,9 +218,13 @@ export default class Processor {
           const old = this.task.transform.parent
             ? await this.elasticsearch.search(oplog.o2._id.toString())
             : await this.elasticsearch.retrieve(oplog.o2._id.toString())
-          const doc = old
-            ? this.applyUpdateESDoc(old, oplog.o.$set, oplog.o.$unset)
-            : await this.mongodb.retrieve(oplog.o2._id)
+
+          const isNotDeepUpdate = this.notDeepUpdate(oplog.o.$set, oplog.o.$unset)
+          const doc =
+            !!old && isNotDeepUpdate
+              ? // const doc = old
+                this.applyUpdateESDoc(old, oplog.o.$set, oplog.o.$unset)
+              : await this.mongodb.retrieve(oplog.o2._id)
           return doc ? this.transformer('upsert', doc, oplog.ts, !!old) : null
         }
         case 'd': {
@@ -337,6 +362,7 @@ export default class Processor {
         .subscribe(
           oplogs => {
             this.queue.push(oplogs)
+            console.log('oplogs=--=-->', oplogs)
             if (!this.running) {
               this.running = true
               setImmediate(this._processOplog.bind(this))
