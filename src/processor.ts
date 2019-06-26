@@ -362,7 +362,6 @@ export default class Processor {
         .subscribe(
           oplogs => {
             this.queue.push(oplogs)
-            console.log('oplogs=--=-->', oplogs)
             if (!this.running) {
               this.running = true
               setImmediate(this._processOplog.bind(this))
